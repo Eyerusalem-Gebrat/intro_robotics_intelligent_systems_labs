@@ -24,14 +24,14 @@ This project implements a differential-drive robot simulation using ROS 2 Humble
 ## Implemented Features
 
 - Differential-drive robot simulation in Gazebo.
-- Depth camera and IMU sensor integration.
+- LiDAR, camera, depth camera, and IMU sensor integration.
 - Obstacle detection and distance monitoring.
-- Obstacle avoidance using a turn-away node.
-- Robot status publishing.
-- Turn-speed configuration through a ROS 2 service.
-- Distance-based movement using an action server.
-- Robot rotation using an action server.
-- Autonomous square movement using four driving and rotation sequences.
+- Obstacle avoidance using a configurable turn-away node.
+- Robot status publishing, including stopped, forward, and turning states.
+- Runtime parameter configuration and turn-speed control through a custom ROS 2 service.
+- Distance-based movement using a custom action server.
+- Robot rotation using a custom action server.
+- Autonomous square movement using sequential drive and rotation actions, with failure handling.
 
 ## Requirements
 
@@ -44,14 +44,7 @@ This project implements a differential-drive robot simulation using ROS 2 Humble
 
 ## Setup and Build
 
-Create a ROS 2 workspace if you do not already have one:
-
-```bash
-mkdir -p ~/ros2_ws/src
-cd ~/ros2_ws/src
-```
-
-## Fresh clone and workspace setup
+### Fresh clone and workspace setup
 
 Run these commands in order. They create a workspace, clone the repository, and enter the lab folder.
 
@@ -134,7 +127,7 @@ source /opt/ros/humble/setup.bash
 source ~/ros2_ws/install/setup.bash
 ```
 
-## Start the robot and simulation
+## Start the Robot and Simulation
 
 For tests that use the robot, sensors, and obstacle detector, use `control.launch.py`:
 
@@ -150,11 +143,11 @@ Keep this terminal running.
 
 This launch starts the robot control setup, including the obstacle detector that publishes `/obstacle`. Starting Gazebo alone is not sufficient for the obstacle-avoidance test if the obstacle detector is not running.
 
-## Test obstacle avoidance (turn_away)
+## Test Obstacle Avoidance (turn_away)
 
 Follow the terminal order below.
 
-### Terminal 1 – start the robot
+### Terminal 1 – Start the robot
 
 ```bash
 cd ~/ros2_ws
@@ -166,7 +159,7 @@ ros2 launch diffdrive_bot control.launch.py
 
 Keep it running.
 
-### Terminal 2 – start the turn-away node
+### Terminal 2 – Start the turn-away node
 
 Open a second terminal:
 
@@ -186,7 +179,7 @@ Turn away node started (disabled)
 
 **This is expected. The node is intentionally disabled when it starts.** It must be enabled using the `/turn_away_enable` service before it controls the robot.
 
-### Terminal 3 – enable obstacle avoidance
+### Terminal 3 – Enable obstacle avoidance
 
 Open a third terminal:
 
@@ -231,9 +224,9 @@ ros2 topic info /cmd_vel
 ros2 service call /turn_away_enable std_srvs/srv/SetBool "{data: false}"
 ```
 
-The node should stop controlling the robot. Disabling it publishes a zero velocity command as specified in the exercise.
+The node stops controlling the robot and publishes a zero velocity command.
 
-## Test turn-away parameters and service
+## Test Turn-Away Parameters and Service
 
 The turn-away node uses these parameters:
 
@@ -292,7 +285,7 @@ Disable the node after testing:
 ros2 service call /turn_away_enable std_srvs/srv/SetBool "{data: false}"
 ```
 
-## Test robot status
+## Test Robot Status
 
 With the relevant nodes running, inspect the robot status topic:
 
@@ -308,9 +301,9 @@ The topic uses the custom message:
 my_robot_interfaces/msg/RobotStatus
 ```
 
-It reports the robot's state and obstacle distance.
+It reports the robot's current state (`stopped`, `forward`, or `turning`) and the latest obstacle distance. When obstacle avoidance is disabled, the node publishes a stopped status.
 
-## Test the drive-distance action
+## Test the Drive-Distance Action
 
 With the robot control setup running, check that the action is available:
 
@@ -333,7 +326,7 @@ ros2 action send_goal /drive_distance lab_interfaces/action/DriveDistance "{dist
 
 The command should show the goal response, feedback, and final result.
 
-## Test the rotate action
+## Test the Rotate Action
 
 Start the rotate action server if it is not already running. Use a separate sourced terminal:
 
@@ -360,7 +353,7 @@ ros2 action send_goal /rotate my_robot_interfaces/action/Rotate "{angle: 1.57}" 
 
 The action should provide feedback while rotating and a final result when it finishes.
 
-## Test autonomous square movement
+## Test Autonomous Square Movement
 
 The square test uses the robot's control launch, the rotate action server, and the square driver. The `square.launch.py` launch file starts the required components together.
 
@@ -383,10 +376,11 @@ Keep this terminal running and watch the output.
 Expected behavior:
 
 - The robot and Gazebo simulation start.
-- The rotate action server and square driver start.
+- The rotate action server and square driver start automatically.
 - The square driver sends drive-distance and rotation goals.
 - The robot drives four sides and rotates between sides.
-- The robot completes a square and stops.
+- The driver checks action results and stops the sequence if a goal fails.
+- The robot reports `Square completed!` after successfully completing all four sides.
 
 The default side length is `0.5` metres.
 
@@ -476,6 +470,7 @@ colcon build --symlink-install
 
 source install/setup.bash
 ```
+
 ## Screenshots
 
 The `screenshots/` directory contains:
