@@ -19,7 +19,7 @@
   <xacro:property name="camera_size" value="0.03 0.08 0.03" />
   <xacro:property name="camera_mass" value="0.1" />
 
-  <!-- TODO (exercise Step 1): properties for the depth camera's size and mass -->
+  <!-- DONE: The depth camera reuses the existing camera size and mass properties. -->
 
   <xacro:macro name="box_inertia" params="m x y z">
     <inertia ixx="${m*(y*y+z*z)/12}" ixy="0" ixz="0" iyy="${m*(x*x+z*z)/12}" iyz="0" izz="${m*(x*x+y*y)/12}" />
@@ -179,13 +179,9 @@
     <origin xyz="${chassis_length/2 + 0.015} 0 0" />
   </joint>
   
-  <!-- TODO (exercise Step 1): depth camera on the back face, looking along -x.
-       Add the link depth_camera_link (visual, collision, inertial) and a fixed joint
-       to base_link, turned half a turn about z. -->
+  <!-- DONE: Added the depth camera link and fixed joint on the rear face, rotated to face -x. -->
 
-  <!-- TODO (exercise Step 1): IMU at the centre of the chassis.
-       Add the link imu_link and a fixed joint to base_link. -->
-    <!-- Depth camera on the back face, looking backwards -->
+  <!-- DONE: Added the IMU link and fixed joint at the centre of the chassis. -->
 
   <link name="depth_camera_link">
     <visual>
@@ -283,11 +279,9 @@
     </sensor>
   </gazebo>
 
-  <!-- TODO (exercise Step 1): Gazebo sensor of type depth_camera for depth_camera_link,
-       publishing on /depth_camera, with its camera_info_topic set to
-       /depth_camera/camera_info -->
+  <!-- DONE: Configured the Gazebo depth camera sensor and camera info topic. -->
 
-  <!-- TODO (exercise Step 1): Gazebo sensor of type imu for imu_link, publishing on /imu -->
+  <!-- DONE: Configured the Gazebo IMU sensor to publish on /imu. -->
   <gazebo reference="depth_camera_link">
     <sensor name="depth_camera" type="depth_camera">
       <topic>/depth_camera</topic>
