@@ -240,7 +240,6 @@ The turn-away node uses these parameters:
 - `forward_speed` – forward linear speed.
 - `turn_speed` – turning angular speed.
 - `max_turn_speed` – maximum permitted turning speed.
-- `use_sim_time` – whether to use simulation time.
 
 With `turn_away` running, inspect its parameters:
 

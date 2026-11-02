@@ -81,6 +81,7 @@ class TurnAway(Node):
         self.last_distance = msg.distance
 
         if not self.enabled:
+            self.publish_status('stopped')
             return
 
         forward_speed = self.get_parameter('forward_speed').value
