@@ -1,0 +1,8 @@
+# Desired rotation angle in radians; positive is left, negative is right
+float32 angle
+---
+# Final angle turned in radians
+float32 turned
+---
+# Rotation progress in radians
+float32 turned
