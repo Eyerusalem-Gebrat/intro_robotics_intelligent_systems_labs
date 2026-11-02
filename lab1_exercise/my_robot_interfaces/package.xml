@@ -4,7 +4,7 @@
   <name>my_robot_interfaces</name>
   <version>0.1.0</version>
   <description>Custom messages, services, and actions for the differential drive robot</description>
-  <maintainer email="salem@todo.todo">salem</maintainer>
+  <maintainer email="eyerusalem.gebrat@gmail.com">Eyerusalem Gebrat</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>

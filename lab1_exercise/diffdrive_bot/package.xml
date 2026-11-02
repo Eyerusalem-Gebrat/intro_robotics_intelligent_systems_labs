@@ -3,12 +3,13 @@
 <package format="3">
   <name>diffdrive_bot</name>
   <version>0.1.0</version>
-  <description>A small differential-drive robot with a lidar and a camera, built from primitive shapes, for RViz and Gazebo, with nodes that drive it</description>
-  <maintainer email="mohammedsrajk@gmail.com">Mohammed</maintainer>
+  <description>ROS 2 nodes for obstacle avoidance, robot status, rotation, and square navigation</description>
+  <maintainer email="eyerusalem.gebrat@gmail.com">Eyerusalem Gebrat</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <depend>action_msgs</depend>
   <exec_depend>lab_interfaces</exec_depend>
   <exec_depend>rclpy</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>

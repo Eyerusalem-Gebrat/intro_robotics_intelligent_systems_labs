@@ -15,8 +15,8 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='salem',
-    maintainer_email='salem@todo.todo',
+    maintainer='Eyerusalem Gebrat',
+    maintainer_email='eyerusalem.gebrat@gmail.com',
     description='Robot control nodes for Lab 1',
     license='MIT',
     entry_points={
