@@ -486,3 +486,9 @@ The `screenshots/` directory contains:
 ## Expected Result
 
 When launched successfully, the robot spawns in Gazebo, detects obstacles, publishes robot status, responds to movement and rotation actions, and executes an autonomous square path.
+
+## Reflection: What Did Not Work
+
+- **Gazebo sensor warnings:** Gazebo showed `gz_frame_id` compatibility warnings, but all sensors still published data correctly.
+- **Rotate action:** The rotate action was unavailable in `control.launch.py` because its server was not included. Starting `rotate_server` separately fixed this.
+- **Automated tests:** No automated test cases were registered, so functionality was verified manually using ROS 2 commands and Gazebo.
